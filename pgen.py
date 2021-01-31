@@ -91,7 +91,7 @@ class Main(QMainWindow, FORM_CLASS):
     def copy_output(self):
         QApplication.clipboard().setText(self.passwords_output.toPlainText())
         msg = QMessageBox()
-        msg.setWindowIcon(QIcon('C:/Users/hamdi/Desktop/PGEN_QT/padlock.ico'))
+        msg.setWindowIcon(QIcon('directory/padlock.ico'))
         msg.setIcon(QMessageBox.Information)
         msg.setWindowTitle("P-GEN")
         msg.setText("Passwords has been copied!")
@@ -101,7 +101,7 @@ class Main(QMainWindow, FORM_CLASS):
     def clearr(self):
         self.passwords_output.clear()
         msg = QMessageBox()
-        msg.setWindowIcon(QIcon('C:/Users/hamdi/Desktop/PGEN_QT/padlock.ico'))
+        msg.setWindowIcon(QIcon('directory/padlock.ico'))
         msg.setIcon(QMessageBox.Information)
         msg.setWindowTitle("P-GEN")
         msg.setText("Passwords has been cleared!")
@@ -117,15 +117,14 @@ class Main(QMainWindow, FORM_CLASS):
 
     def save_file(self): 
         options = QFileDialog.Options()
-        # options |= QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
         if fileName:
-            file = open(f'{fileName}.txt', 'w')
+            file = open(f'{fileName}', 'w')
             file.write(self.passwords_output.toPlainText())
             file.close()
 
             msg = QMessageBox()
-            msg.setWindowIcon(QIcon('C:/Users/hamdi/Desktop/PGEN_QT/padlock.ico'))
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
             msg.setIcon(QMessageBox.Information)
             msg.setWindowTitle("P-GEN")
             msg.setText("Passwords has been Exported!")
