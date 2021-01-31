@@ -8,6 +8,6 @@ Chars length must be a multiple of 4. Example of length inputs: 8 (minimum), 12,
 
 Else, you can generate the maximum of 96 passwords per click, minimum input is 1.
 
-Everything run as expected, just when you click on `Export as txt`, input only the `file name without txt extension` and it will be automatically saved as `txt file` with the fileName you chose and in the directory you already naviagted to.
+Everything run as expected, just when you click on `Export as txt`, input only the `file name without txt extension` and it will be automatically saved as `txt file` with the fileName you chose and in the directory you already navigated to.
 
 ![xHSDeOaEqZ.gif](https://github.com/IT-Support-L2/pyqt5-password-generator/blob/main/xHSDeOaEqZ.gif)
