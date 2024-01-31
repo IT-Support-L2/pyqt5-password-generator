@@ -18,30 +18,82 @@ from PyQt5.uic import loadUiType
 
 FORM_CLASS,_=loadUiType(ressource_path("main.ui"))
 
-
-
-
 class Main(QMainWindow, FORM_CLASS):
     def __init__(self,parent=None):
         super(Main,self).__init__(parent)
         self.setupUi(self)
         self.Handel_Buttons()
        
-        
     def Handel_Buttons(self):
         self.generate_passwords.clicked.connect(self.output)
         self.copy.clicked.connect(self.copy_output)
         self.clear.clicked.connect(self.clearr)
         self.linkedin.clicked.connect(self.linked_in)
         self.github.clicked.connect(self.git_hub)
-        self.export_passwords.clicked.connect(self.save_file)
-        self.chars_input.setValidator(QIntValidator(8, 96))
-        self.pwdNbr_input.setValidator(QIntValidator(1, 96))
+        
 
     def randompassword(self):
 
-        while int(self.chars_input.text()) >= 8 and int(self.pwdNbr_input.text()) >= 1:
+        intValidator1 = QIntValidator(8, 96)
+        intValidator2 = QIntValidator(1, 96)
 
+        if self.chars_input.text() == "":
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Empty input! Please enter a number between 8 and 96!")
+            msg.exec_()
+
+        elif int(self.chars_input.text()) % 4 != 0:
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Wrong input! Characters length must equals to or greater than 8"+"\n"+"and a multiplier of 4 such as 8, 12, 16 ect.")
+            msg.exec_()
+
+        elif self.chars_input.text().isnumeric() != True:
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Wrong input! Input must be a digit! Please enter a number between 8 and 96.")
+            msg.exec_()
+
+        elif intValidator1.validate(self.chars_input.text(), 0)[0] != QIntValidator.Acceptable:
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Wrong input! Characters length must be a number between 8 and 96!"+"\n"+"Please enter a number between 8 and 96.")
+            msg.exec_()
+
+        elif self.pwdNbr_input.text() == "":
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Empty input! Please enter a number between 1 and 96!")
+            msg.exec_()
+
+        elif self.pwdNbr_input.text().isnumeric() != True:
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Wrong input! Input must be a digit! Please enter a number between 1 and 96!")
+            msg.exec_()
+
+        elif intValidator2.validate(self.pwdNbr_input.text(), 0)[0] != QIntValidator.Acceptable:
+            msg = QMessageBox()
+            msg.setWindowIcon(QIcon('directory/padlock.ico'))
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("P-GEN")
+            msg.setText("Wrong input! Minimum password(s) to generate is 1"+"\n"+"and the maximum is 96."+"\n"+"Please enter a number between 1 and 96!")
+            msg.exec_()
+
+        else: 
 
             punc = "!#($%&*+}-/<=)>?@[\]^{|"
 
@@ -82,12 +134,12 @@ class Main(QMainWindow, FORM_CLASS):
     def output(self):
         
         n=0
-        while n < int(self.pwdNbr_input.text()):
-            self.paStr = self.randompassword() + '\n'
-            n=n+1
-            self.passwords_output.append(self.paStr)
+        if self.randompassword():
+            while n < int(self.pwdNbr_input.text()):
+                self.paStr = self.randompassword() + '\n'
+                n=n+1
+                self.passwords_output.append(self.paStr)
            
-
     def copy_output(self):
         QApplication.clipboard().setText(self.passwords_output.toPlainText())
         msg = QMessageBox()
@@ -97,14 +149,15 @@ class Main(QMainWindow, FORM_CLASS):
         msg.setText("Passwords has been copied!")
         msg.exec_()
 
-
     def clearr(self):
         self.passwords_output.clear()
+        self.chars_input.clear()
+        self.pwdNbr_input.clear()
         msg = QMessageBox()
         msg.setWindowIcon(QIcon('directory/padlock.ico'))
         msg.setIcon(QMessageBox.Information)
         msg.setWindowTitle("P-GEN")
-        msg.setText("Passwords has been cleared!")
+        msg.setText("Passwords and Inputs are cleared!")
         msg.exec_()
 
     def linked_in(self):
@@ -128,9 +181,7 @@ class Main(QMainWindow, FORM_CLASS):
             msg.setIcon(QMessageBox.Information)
             msg.setWindowTitle("P-GEN")
             msg.setText("Passwords has been Exported!")
-            msg.exec_()
-
-           
+            msg.exec_()           
 
 def main():
     
@@ -139,6 +190,5 @@ def main():
     window.show()
     app.exec_()
     
-
 if __name__=='__main__':
     main()    
